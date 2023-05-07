@@ -4,6 +4,7 @@ const refs={
     body:document.querySelector('body')
 }
 let timerId=null;
+
 refs.start.addEventListener('click',()=>{
     timerId=setInterval(()=>{
         refs.body.style.backgroundColor=getRandomHexColor();

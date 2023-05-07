@@ -19,13 +19,13 @@ function submitPromiseCreate(event){
   let amount=Number(event.currentTarget.elements.amount.value);
   let step=Number(event.currentTarget.elements.step.value);
   for(let i=1;i<=amount;i+=1) {
-    delay+=step;
+    
     createPromise(i,delay).then(({position,delay})=>{
       console.log(`✅ Fulfilled promise ${position} in ${delay}ms`)
     }).catch(({position,delay})=>{
       console.log(`❌ Rejected promise ${position} in ${delay}ms`)
     })
-
+    delay+=step;
   }
   event.currentTarget.reset();
 }

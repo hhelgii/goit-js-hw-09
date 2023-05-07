@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
 const refs = {
   text: document.getElementById('datetime-picker'),
   start: document.querySelector('[data-start]'),
@@ -8,6 +9,7 @@ const refs = {
   minutes: document.querySelector('[data-minutes]'),
   seconds: document.querySelector('[data-seconds]'),
 };
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -20,18 +22,21 @@ const options = {
     const now = new Date().getTime();
     if (then - now <= 0) {
       alert('Please choose a date in the future');
-      refs.start.setAttribute('disabled', '');
+      // refs.start.setAttribute('disabled', '');
     } else {
       refs.start.removeAttribute('disabled');
     }
   },
 };
+refs.start.setAttribute('disabled', '');
+
 flatpickr(refs.text, options);
 
 let timerId = null;
 
 refs.start.addEventListener('click', () => {
   clearInterval(timerId);
+  refs.text.setAttribute('disabled', '');
   timerId = setInterval(() => {
     const now = new Date();
     const then = new Date(refs.text.value);
@@ -45,12 +50,19 @@ refs.start.addEventListener('click', () => {
     refs.hours.textContent = addLeadingZero(time.hours);
     refs.minutes.textContent = addLeadingZero(time.minutes);
     refs.seconds.textContent = addLeadingZero(time.seconds);
+    if(difference<1000){
+      clearInterval(timerId);
+      refs.text.removeAttribute('disabled');
+    }
     // console.log(`${addLeadingZero(time.days)} ${addLeadingZero(time.hours)} ${addLeadingZero(time.minutes)} ${addLeadingZero(time.seconds)}` )
   }, 1000);
+  
+
 });
 
 function addLeadingZero(value) {
-  return value.length < 2 ? value.padStart(1, '0') : value;
+  // return value.length < 2 ? value.padStart(1, '0') : value;
+  return String(value).padStart(2,'0');
 }
 
 function convertMs(ms) {
